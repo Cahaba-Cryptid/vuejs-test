@@ -6,8 +6,9 @@
   <b-row>
     <b-col sm="6" offset="3">
       <QuestionBox 
-      <!-- passing questions index to component with shorthand v-bind -->
-      :question="questions[index]"
+      v-if="questions.length"
+      :currentQuestion="questions[index]"
+      :next="next"
       />
       </b-col>
   </b-row>
@@ -31,6 +32,11 @@ export default {
     return {
       questions: [],
       index: 0
+    }
+  },
+  methods: {
+    next() {
+      this.index++
     }
   },
   mounted: function() {
