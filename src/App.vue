@@ -9,6 +9,7 @@
       v-if="questions.length"
       :currentQuestion="questions[index]"
       :next="next"
+      class="m-2"
       />
       </b-col>
   </b-row>
