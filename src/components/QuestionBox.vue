@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 export default {
   props: {
     currentQuestion: Object,
@@ -28,7 +29,8 @@ export default {
   },
   data() {
     return {
-      selectedIndex: null
+      selectedIndex: null,
+      shuffledAnswers: []
     };
   },
   computed: {
@@ -50,10 +52,8 @@ export default {
     },
     shuffleAnswers() {
         let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
+        this.shuffledAnswer = _.shuffle(answers)
     }
-  },
-  mounted() {
-    console.log(this.currentQuestion);
   }
 };
 </script>
