@@ -12,20 +12,24 @@
           @click.prevent="selectedAnswer(index)"
           :class="[selectedIndex === index ? 'selected' : '']"
         >{{ answer }}</b-list-group-item>
+
       </b-list-group>
 
-      <b-button variant="primary" href="#">Submit!</b-button>
-      <b-button @click="next" variant="success" href="#">Next</b-button>
+      <b-button variant="primary" @click="next">Submit!</b-button>
+
+      <b-button @click="next" variant="success">Next</b-button>
+
     </b-jumbotron>
   </div>
 </template>
 
 <script>
-import _ from 'lodash';
+import _ from "lodash";
 export default {
   props: {
     currentQuestion: Object,
-    next: Function
+    next: Function,
+    increment: Function
   },
   data() {
     return {
@@ -41,18 +45,40 @@ export default {
     }
   },
   watch: {
-      currentQuestion() {
-          this.selectedIndex = null
-          this.shuffleAnswers()
+    currentQuestion: {
+      immediate: true,
+      handler() {
+        this.selectedIndex = null;
+        this.shuffleAnswers();
       }
+    }
+
+    //   () {
+    //       this.selectedIndex = null
+    //       this.shuffleAnswers()
+    //   }
   },
   methods: {
     selectedAnswer(index) {
       this.selectedIndex = index;
+
+    },
+    submitAnswer() {
+        let isCorrect = false
+
+        if (this.selectedIndex === this.correctIndex) {
+            isCorrect = true
+        }
+
+        this.increment(isCorrect)
+
     },
     shuffleAnswers() {
-        let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
-        this.shuffledAnswer = _.shuffle(answers)
+      let answers = [
+        ...this.currentQuestion.incorrect_answers,
+        this.currentQuestion.correct_answer
+      ];
+      this.shuffledAnswer = _.shuffle(answers);
     }
   }
 };
@@ -63,9 +89,9 @@ export default {
   margin-bottom: 15px;
 }
 
-.list-group-item:hover{
-    background: #dcdcdc;
-    cursor: pointer;
+.list-group-item:hover {
+  background: #dcdcdc;
+  cursor: pointer;
 }
 
 .btn {
@@ -73,15 +99,14 @@ export default {
 }
 
 .selected {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 
 .correct {
-    background-color: lightgreen;
+  background-color: lightgreen;
 }
 
 incorrect {
-    background-color:lightcoral;
+  background-color: lightcoral;
 }
-
 </style>
